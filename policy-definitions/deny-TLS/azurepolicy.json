@@ -9,13 +9,7 @@
       },
       "mode": "indexed",
       "parameters": {
-        "tagName": {
-          "type": "String",
-          "metadata": {
-            "description": "The tag name.",
-            "displayName": "Tag Name"
-          }
-        }
+       
       },
       "policyRule": {
         "if": {
