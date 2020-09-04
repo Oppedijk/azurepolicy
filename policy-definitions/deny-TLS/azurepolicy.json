@@ -1,0 +1,54 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "deny-http-and-insecure-TLS-policyDef",
+    "properties": {
+      "displayName": "Deny resources with TLS < 1.2",
+      "description": "This policy denies resources with older SSL/TLS enables",
+      "metadata": {
+        "category": "General"
+      },
+      "mode": "indexed",
+      "parameters": {
+        "tagName": {
+          "type": "String",
+          "metadata": {
+            "description": "The tag name.",
+            "displayName": "Tag Name"
+          }
+        }
+      },
+      "policyRule": {
+        "if": {
+          "anyOf": [
+            {
+                "allOf" : [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Web/sites"
+                    },
+                    {
+                        "field": "Microsoft.Web/sites/httpsOnly",
+                        "notEquals": "true"                            
+                    }
+                ]
+            },
+            {
+                "allOf" : [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Web/sites/config"
+                    },
+                    {
+                        "field": "Microsoft.Web/sites/config/minTlsVersion",
+                        "notEquals": "1.2"                           
+                    }
+                ]
+            }
+        ]
+        },
+        "then": {
+          "effect": "deny"
+        }
+      }
+    }
+  }
